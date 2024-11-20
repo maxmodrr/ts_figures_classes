@@ -1,22 +1,22 @@
 export interface Figure {
   shape: string;
   color: string;
+  getArea(): number;
 }
 
 export class Triangle implements Figure {
-  a: number;
-
-  b: number;
-
-  c: number;
-
   shape: string = 'triangle';
 
   color: string;
 
-  constructor(color: string, a: number, b: number, c: number) {
+  constructor(
+    color: string,
+    private a: number,
+    private b: number,
+    private c: number,
+  ) {
     if (a <= 0 || b <= 0 || c <= 0) {
-      throw new Error('Length of some value is less than 0');
+      throw new Error('Length of some value is less than or equal to 0');
     }
 
     const arrSides = [a, b, c].sort((one: number, two: number) => two - one);
@@ -28,9 +28,6 @@ export class Triangle implements Figure {
     }
 
     this.color = color;
-    this.a = a;
-    this.b = b;
-    this.c = c;
   }
 
   getArea(): number {
@@ -46,11 +43,12 @@ export class Circle implements Figure {
 
   color: string;
 
-  radius: number;
-
-  constructor(color: string, radius: number) {
+  constructor(
+    color: string,
+    private radius: number,
+  ) {
     if (radius <= 0) {
-      throw new Error('Length of some value is less than 0');
+      throw new Error('Length of radius is less than or equal to 0');
     }
     this.color = color;
     this.radius = radius;
@@ -68,13 +66,13 @@ export class Rectangle implements Figure {
 
   color: string;
 
-  width: number;
-
-  height: number;
-
-  constructor(color: string, width: number, height: number) {
+  constructor(
+    color: string,
+    private width: number,
+    private height: number,
+  ) {
     if (width <= 0 || height <= 0) {
-      throw new Error('Length of some value is less than 0');
+      throw new Error('Length of some value is less than or equal to 0');
     }
     this.color = color;
     this.width = width;
@@ -86,6 +84,6 @@ export class Rectangle implements Figure {
   }
 }
 
-export function getInfo(figure): string {
+export function getInfo(figure: Figure): string {
   return `A ${figure.color} ${figure.shape} - ${figure.getArea()}`;
 }
